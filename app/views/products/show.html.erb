@@ -1,0 +1,57 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <img class="img-fluid" src="http://placehold.it/350x150" width="100%">
+    </div>
+
+    <div class="col-md-10 offset-md-1">
+      <div class="float-right">
+        <h3><span class="badge badge-pill badge-purple"><%= number_to_currency(@product.price) %></span></h3>
+      </div>
+      <div>
+        <h3><%= @product.name %></h3>
+      </div>
+      <div>
+        <h3>Quantity: <%= @product.quantity %></h3>
+      </div>
+
+      <div class="mb-4">
+        <%= @product.description %>
+      </div>
+      <!-- if current user is signin unless not do not show or with condition -->
+      <% if current_user  && @product.owned_by?(current_user) %>
+      <div class="float-right btn-edit-del">
+        <%= 
+          link_to "Delete", 
+          product_path(@product), 
+          method: :delete,
+          data: { confirm: "Are you sure?" },
+          class: "btn btn-outline-danger btn-lg"
+        %>
+      </div>
+
+      <div class="btn-edit-del">
+        <%= 
+          link_to "Edit", 
+          edit_product_path(@product), 
+          class: "btn btn-outline-purple btn-lg"
+        %>
+        <%# <a href="#" class="btn btn-outline-purple btn-lg">Edit</a> %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <!-- passed the variable -->
+  <%= render partial: 'comments/form',
+      locals: { product: @product, comment: @comment }
+  %>
+  <div class="row">
+    <div class="col-md-10 offset-md-1 mt-4">
+      <h2 class="comment-header">Customer comments (3)</h2>
+    </div>
+    <% @comments.reject { |cmt| cmt.new_record? }.each do |comment| %>
+      <!-- object variable comment will automatically generated via rails to call the partial -->
+      <%= render partial: 'comments/comment', object: comment %>
+    <% end %>
+</div>

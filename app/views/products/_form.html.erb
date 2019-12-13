@@ -1,0 +1,64 @@
+    <div class="container mb-4">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="card panel-div">
+            <h1 class="text-center form-header-style pt-2 pb-3">
+             <% if action_name == 'new' %>
+              <p>New Product</p>
+              <% else %>
+              <p>Edit Product</p>
+            <% end %>
+            </h1>
+
+            <div class="form-body-style px-5 pt-4">
+              <!-- Form_with is for Ajax response to make it disable use local: true-->
+              <%= form_with model: @product, local: true do |f| %>
+                <div class="form-group row">
+                  <!-- object can past to the render so you can use one instead of multiple -->                
+                  <%= render 'shared/errors', object: @product %>
+                </div>
+                <div class="form-group row">
+                    <%= f.label :name, "Name", class: "col-md-3 col-form-label" %>
+                  <div class="col-md-9">
+                    <%= f.text_field :name, class: "form-control", placeholder: "Product Name", require: true, autofocus: true  %>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <%= f.label :price, "Price", class: "col-md-3 col-form-label" %>
+                  <div class="col-md-9">
+                  <%= f.text_field :price, class: "form-control", placeholder: "Product price" %>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <%= f.label :quantity, "Quantity", class: "col-md-3 col-form-label" %>
+                  <div class="col-md-9">
+                  <%= f.number_field :quantity, class: "form-control" %>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <%= f.label :description, "Description", class: "col-md-3 col-form-label"  %>
+                  <div class="col-md-9">
+                    <%= f.text_area :description, class: "form-control", placeholder: "Product description", rows: 5 %>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <%= f.label :image_url, "Image", class: "col-md-3 col-form-label"  %>
+                  <div class="col-md-9">
+                    <%= f.file_field :image_url, class: "form-control", placeholder: "Upload Image" %>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-9 offset-md-3">
+                    <%= f.submit "Submit", class:"btn btn-outline-purple" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

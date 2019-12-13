@@ -1,0 +1,16 @@
+<% if object.errors.any? %>
+    <div id="error_explanation">
+      <h5 class="card-title">
+        <!-- pluralize mean if more than 1 it will show multiple if one it will show one -->
+        <%= pluralize(object.errors.count, 'error') %>
+        prohibited this <%= object.class.name.humanize.downcase %> from being saved.
+      </h5>
+      <ul>
+        <% object.errors.full_messages.each do |msg|%>
+          <li>
+            <%= msg %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
