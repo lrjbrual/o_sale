@@ -48,9 +48,10 @@
   %>
   <div class="row">
     <div class="col-md-10 offset-md-1 mt-4">
-      <h2 class="comment-header">Customer comments (3)</h2>
+      <h2 class="comment-header">Customer comments (<%= @comments.count %>)</h2>
     </div>
-    <% @comments.reject { |cmt| cmt.new_record? }.each do |comment| %>
+    <!-- this @comments.reject is complex to do it refactor via helper method called persisted -->
+    <% persisted_comments(@comments).each do |comment| %>
       <!-- object variable comment will automatically generated via rails to call the partial -->
       <%= render partial: 'comments/comment', object: comment %>
     <% end %>
