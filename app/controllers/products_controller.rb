@@ -1,10 +1,10 @@
 class ProductsController < ApplicationController
   ## prevent changes for edit only shows of the product via before_action require
-  before_action :require_signin, except: [:index, :show]
+  # before_action :require_signin, except: [:index, :show]
   ## Before action findproduct use for params[:id]
   before_action :find_product, only: [:show, :edit, :update, :destroy]
   ## this will apply for require owner
-  before_action :require_owner, only: [:edit, :update, :destroy]
+  # before_action :require_owner, only: [:edit, :update, :destroy]
   
   def index
     @products = Product.all
@@ -15,18 +15,26 @@ class ProductsController < ApplicationController
   end
 
   def create
+    ## for reactjs
     @product = Product.new(product_params) 
-    @product.user = current_user #this can use for creation of existing product if not it will through an error user doesn't exist
+    @product.user_id = 1
+    unless @product.save
+      render json: @product.errors.full_messages, status: :unprocessable_entity
+    end
+
+    # for rails --
+    # @product = Product.new(product_params) 
+    # @product.user = current_user #this can use for creation of existing product if not it will through an error user doesn't exist
     # @product.save
     # redirect_to root_path
     # @product = Product.find(params[:id])
-    if @product.save
-      flash[:notice] = 'Product Successfully created'
-      redirect_to root_path
-    else
-      flash[:alert] = 'Product cannot be created'
-      render :new
-    end
+    # if @product.save
+    #   flash[:notice] = 'Product Successfully created'
+    #   redirect_to root_path
+    # else
+    #   flash[:alert] = 'Product cannot be created'
+    #   render :new
+    # end
   end
 
   def show

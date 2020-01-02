@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-
+  ## this will resolve the session for authenticity token in reactjs
+  protect_from_forgery with: :null_session,
+    only: Proc.new { |c| c.request.format.json? }
   private
 
   def current_user

@@ -1,21 +1,24 @@
 import React from 'react'
 import Product from '../components/products/Product'
 import axios from 'axios'
+import Jumbotron from '../components/products/Jumbotron'
+import NewProductForm from '../components/products/NewProductForm'
 
 class ProductList extends React.Component {
-  constructor(props) {
-    super(props)
+  // constructor(props) {
+  //   super(props)
 
-    this.state = {
+    // this.state = {
+      state = {
       products: []
     }
-  }
+  // }
 
-  componentDidMount(){
+  componentDidMount = () => {
     this.loadProductsFromServer()
   }
 
-  loadProductsFromServer() {
+  loadProductsFromServer = () => {
     axios
       .get('/api/v1/products.json')
       .then(response => {
@@ -31,6 +34,10 @@ class ProductList extends React.Component {
       .catch(error => console.log(error.response.data))
   }
 
+  handleProductSubmit = (data) => {
+    console.log("Submitted in Product List")
+  }
+
   render (){
     const { products } = this.state
     const productList = products.map(
@@ -40,17 +47,21 @@ class ProductList extends React.Component {
     // console.log(this.state)
   
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12 mb-2">
-            <div className="row">
-              <div className="card-deck">
-                { productList }
+      <React.Fragment>
+      <Jumbotron />
+        <NewProductForm onSubmit={this.handleProductSubmit}/>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12 mb-2">
+              <div className="row">
+                <div className="card-deck">
+                  { productList }
+                </div>
               </div>
             </div>
-          </div>
-        </div> 
-      </div> 
+          </div> 
+        </div>
+      </React.Fragment>
     )
   }
 
